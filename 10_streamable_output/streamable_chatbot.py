@@ -8,6 +8,7 @@ from langgraph.prebuilt import ToolNode
 # from langgraph.checkpoint.memory import MemorySaver
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langchain_core.messages import AIMessageChunk
+import asyncio
 import sqlite3
 load_dotenv()
 # memory = MemorySaver()
@@ -16,7 +17,7 @@ memory = SqliteSaver(sqlite_conn)
 
 tavily_search = TavilySearch(max_results=3)
 tools = [tavily_search]
-llm = ChatOpenAI(model="doubao-seed-1-6-lite-251015")
+llm = ChatOpenAI(model="deepseek-v3-1-terminus")
 llm_with_tools = llm.bind_tools(tools=tools)
 
 class BasicChatState(TypedDict):
@@ -45,19 +46,23 @@ graph.add_conditional_edges(
     tool_router,
     {"tool_node": "tool_node", END: END}
 )
-app = graph.compile(checkpointer=memory)
+app = graph.compile()
 config = {"configurable": {
     "thread_id": "user1"
 }}
 
-while True:
-    input_text = input("😺: ")
-    if input_text in ["exit", "quit"]:
-        break
-    state = {"messages": [HumanMessage(content=input_text)]}
-    result = app.stream(input=state, config=config, stream_mode="messages")
-    print("🤖: ", end="")
-    for message_chunk, metadata in result:
-        if message_chunk.content and isinstance(message_chunk, AIMessageChunk):
-            print(message_chunk.content, end="", flush=True)
-    print()  # 换行
+
+async def getOutput():
+    while True:
+        input_text = input("😺: ")
+        if input_text in ["exit", "quit"]:
+            break
+        state = {"messages": [HumanMessage(content=input_text)]}
+        print("🤖: ", end="")
+        async for event in app.astream_events(input=state, version="v2"):
+            # if event['name'] == "chat_bot":
+            print(event, end="\n", flush=True)
+        print()  # 换行
+
+if __name__ == "__main__":
+    asyncio.run(getOutput())

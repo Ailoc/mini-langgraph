@@ -1540,6 +1540,18 @@ wheels = [
 ]
 
 [[package]]
+name = "langchain-experimental"
+version = "0.0.42"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "langchain" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c6/1c/2ea6dc455eea0d033046793f8196ce4712542d1e222b6febbadf662f68cc/langchain_experimental-0.0.42.tar.gz", hash = "sha256:1571ef536b056c46781d1de0fa926ab27c7d386da203ba61e0e0601d4cfc96be", size = 102761, upload-time = "2023-11-18T23:14:50.168Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bd/34/147eb8d99408c200b2d0d6fc26841833542123622cb45c27af8f33a7d925/langchain_experimental-0.0.42-py3-none-any.whl", hash = "sha256:8e9190fa5ebdd03dfed6ca20846ebb26fc7e0c1fffbab070a12f1ce0cf5053d2", size = 159392, upload-time = "2023-11-18T23:14:48.542Z" },
+]
+
+[[package]]
 name = "langchain-huggingface"
 version = "1.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1823,6 +1835,7 @@ dependencies = [
     { name = "ipython", version = "9.6.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "langchain" },
     { name = "langchain-community" },
+    { name = "langchain-experimental" },
     { name = "langchain-huggingface" },
     { name = "langchain-milvus" },
     { name = "langchain-openai" },
@@ -1839,6 +1852,7 @@ requires-dist = [
     { name = "ipython", specifier = ">=8.37.0" },
     { name = "langchain", specifier = ">=1.0.2" },
     { name = "langchain-community", specifier = ">=0.4.1" },
+    { name = "langchain-experimental", specifier = ">=0.0.42" },
     { name = "langchain-huggingface", specifier = ">=1.0.0" },
     { name = "langchain-milvus", specifier = ">=0.2.2" },
     { name = "langchain-openai", specifier = ">=1.0.1" },
